@@ -2,18 +2,8 @@
 
 include_once('db.php');
 include_once('model.php');
-include_once('test.php');
 
 $conn = get_connect();
-
-// Uncomment to see data in db
-//run_db_test($conn);
-
-$month_names = [
-    '01' => 'January',
-    '02' => 'Februarry',
-    '03' => 'March'
-];
 ?>
 
 <!DOCTYPE html>
@@ -40,10 +30,15 @@ $month_names = [
 </form>
 
 <div id="data">
-    <h2>Transactions of `User name`</h2>
+    <h2>Transactions of <span id="user_name">`User name`</span></h2>
     <table>
-        <tr><th>Mounth</th><th>Amount</th><th>Count</th></tr>
-        <tr><td>...</td><td>...</td><td>...</td>
+        <thead>
+            <tr><th>Month</th><th>Amount</th><th>Count</th></tr>
+        </thead>
+        <tbody id="report">
+            <tr><td>...</td><td>...</td><td>...</td>
+        </tbody>
+    </body>
     </table>
 </div>
 <script src="script.js"></script>

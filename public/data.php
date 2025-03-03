@@ -8,6 +8,8 @@ $user_id = isset($_GET['user'])
 
 if ($user_id) {
     // Get transactions balances
+    $conn = get_connect();
     $transactions = get_user_transactions_balances($user_id, $conn);
-    // TODO: implement
+    header('Content-Type: application/json');
+    echo json_encode($transactions);
 }
