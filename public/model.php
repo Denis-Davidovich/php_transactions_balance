@@ -49,7 +49,13 @@ function get_user_transactions_balances($user_id, $conn)
                        a.id                      account_id,
                        STRFTIME("%Y-%m", trdate) period,
                        sum(amount)               total,
-                       count(t.id)               count,
+                       -- Is this an internal transaction? if so, then we do not have to account for it twice
+                       COUNT(IIF(
+                                (SELECT a_from.user_id FROM user_accounts a_from WHERE a_from.id = t.account_from)
+                            ==  (SELECT   a_to.user_id FROM user_accounts a_to   WHERE   a_to.id = t.account_to)
+                                , null
+                                , 1
+                       )) count,
                        group_concat(t.id)        trxs_out
                 FROM users u
                          JOIN user_accounts a ON a.user_id = u.id
